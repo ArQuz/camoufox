@@ -45,6 +45,6 @@ index 0eeb5924c4..8b975a8b11 100644
 -      return;
 -    }
 -
-     if (!provider.hasPolicies) {
-       this.status = Ci.nsIEnterprisePolicies.INACTIVE;
-       return;
+     this.status = Ci.nsIEnterprisePolicies.ACTIVE;
+     this._parsedPolicies = {};
+     this._activatePolicies(provider.policies);
