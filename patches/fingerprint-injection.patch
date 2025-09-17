@@ -3,9 +3,9 @@ index 434167c996..e18a16aee0 100644
 --- a/browser/app/moz.build
 +++ b/browser/app/moz.build
 @@ -174,3 +174,6 @@ for icon in ("firefox", "document", "newwindow", "newtab", "pbmode", "document_p
-         CONFIG["MOZ_BRANDING_DIRECTORY"],
-         icon,
-     )
+     WINCONSOLE = True
+ else:
+     WINCONSOLE = False
 +
 +# DOM Mask
 +LOCAL_INCLUDES += ["/camoucfg"]
@@ -176,9 +176,9 @@ index 8e577bd9fd..3ed748a75f 100644
  bool Navigator::OnLine() {
 +  if (auto value = MaskConfig::GetBool("navigator.onLine"); value.has_value())
 +    return value.value();
-   if (mWindow) {
-     // Check if this tab is set to be offline.
-     BrowsingContext* bc = mWindow->GetBrowsingContext();
+   if (nsContentUtils::ShouldResistFingerprinting(
+           GetDocShell(), RFPTarget::NetworkConnection)) {
+     return true;
 @@ -603,6 +640,8 @@ bool Navigator::OnLine() {
  void Navigator::GetBuildID(nsAString& aBuildID, CallerType aCallerType,
                             ErrorResult& aRv) const {
@@ -188,15 +188,15 @@ index 8e577bd9fd..3ed748a75f 100644
      // If fingerprinting resistance is on, we will spoof this value. See
      // nsRFPService.h for details about spoofed values.
      if (nsContentUtils::ShouldResistFingerprinting(
-@@ -659,6 +698,8 @@ void Navigator::GetBuildID(nsAString& aBuildID, CallerType aCallerType,
+@@ -665,6 +704,8 @@ void Navigator::GetBuildID(nsAString& aBuildID, CallerType aCallerType,
  }
  
  void Navigator::GetDoNotTrack(nsAString& aResult) {
 +  if (auto value = MaskConfig::GetString("navigator.doNotTrack"))
 +    return aResult.Assign(NS_ConvertUTF8toUTF16(value.value()));
-   bool doNotTrack = StaticPrefs::privacy_donottrackheader_enabled();
-   if (!doNotTrack) {
-     nsCOMPtr<nsILoadContext> loadContext = do_GetInterface(mWindow);
+   if (StaticPrefs::privacy_donottrackheader_enabled()) {
+     aResult.AssignLiteral("1");
+   } else {
 @@ -673,6 +714,9 @@ void Navigator::GetDoNotTrack(nsAString& aResult) {
  }
  

@@ -74,9 +74,9 @@ index 2d6b6b5fab..0c7ed74c6d 100644
 --- a/dom/geolocation/moz.build
 +++ b/dom/geolocation/moz.build
 @@ -58,3 +58,6 @@ elif CONFIG["MOZ_WIDGET_TOOLKIT"] == "gtk":
-     if CONFIG["MOZ_ENABLE_DBUS"]:
-         LOCAL_INCLUDES += ["/dom/system/linux"]
-         CXXFLAGS += CONFIG["MOZ_GTK3_CFLAGS"]
+ MOCHITEST_CHROME_MANIFESTS += ["test/chrome/chrome.toml"]
+ MOCHITEST_MANIFESTS += ["test/mochitest/mochitest.toml"]
+ XPCSHELL_TESTS_MANIFESTS += ["test/unit/xpcshell.toml"]
 +
 +# DOM Mask
 +LOCAL_INCLUDES += ["/camoucfg"]

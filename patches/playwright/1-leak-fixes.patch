@@ -36,7 +36,7 @@ diff --git a/toolkit/components/enterprisepolicies/EnterprisePoliciesParent.sys.
 index 0eeb5924c4..8b975a8b11 100644
 --- a/toolkit/components/enterprisepolicies/EnterprisePoliciesParent.sys.mjs
 +++ b/toolkit/components/enterprisepolicies/EnterprisePoliciesParent.sys.mjs
-@@ -108,12 +108,6 @@ EnterprisePoliciesManager.prototype = {
+@@ -108,11 +108,6 @@ EnterprisePoliciesManager.prototype = {
      let provider = new PlaywrightPoliciesProvider();
      // --- Playwright end ---
 
